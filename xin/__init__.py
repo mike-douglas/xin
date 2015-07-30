@@ -26,7 +26,9 @@ Usage:
 """.format(error=error, this=os.path.split(sys.argv[0])[-1]).strip()
 
 def run_utility(arguments, line):
-    p = subprocess.Popen(arguments, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen(arguments, stdin=subprocess.PIPE,\
+                                    stdout=subprocess.PIPE,\
+                                    stderr=subprocess.PIPE)
     output, error = p.communicate(line)
 
     if p.returncode is None:
@@ -35,12 +37,12 @@ def run_utility(arguments, line):
     return output, error
 
 def output_result(output, error, stdout=None):
-    if stdout = None:
+    if stdout == None:
         stdout = sys.stdout
     if not output is None:
-        print(output, end='')
+        print(output, end='', file=stdout)
     if not error is None:
-        print(error, end='')
+        print(error, end='', file=stdout)
 
 def chunked_lines(handle, chunk_size=1):
     chunks = []
