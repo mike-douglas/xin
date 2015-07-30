@@ -18,6 +18,8 @@ setup(
         ],
     },
 
+    test_suite = 'tests',
+
     include_package_data = True,
     zip_safe=False,
 
