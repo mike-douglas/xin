@@ -30,9 +30,9 @@ You can use `xin` to get a character count for *each line* by issuing the follow
 
 ```bash
 $ xin wc -c < woods.txt
-      41
-      39
+      38
       36
+      33
       38
 ```
 
