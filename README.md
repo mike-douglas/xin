@@ -1,5 +1,7 @@
 # xin
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mike-douglas/xin/CI)
+
 A shell utility like `xargs` that sends each line of standard input to a command.
 
 ## Usage

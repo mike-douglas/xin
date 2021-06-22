@@ -7,9 +7,13 @@ on:
 
 jobs:
   test:
-    runs-on: python:3.9.2
+    runs-on: ubuntu-latest
   
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.9.2'
+        architecture: 'x64'
     - name: Run tests
       run: python ./setup.py test
