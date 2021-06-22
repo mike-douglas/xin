@@ -6,7 +6,7 @@ A shell utility like `xargs` that sends each line of standard input to a command
 
 `xin` works just like the incredibly useful `xargs` tool, except with one key difference: where `xargs` passes the standard input (STDIN) to the given command as command-line arguments, `xin` *passes each line of standard input to the given command*.
 
-```
+```bash
 xin [-h] [-L num] [-B] [-P maxprocs] command [arguments...]
 
 -h            Shows help
@@ -19,7 +19,7 @@ xin [-h] [-L num] [-B] [-P maxprocs] command [arguments...]
 
 If you have a file that contains the following text, called `woods.txt`:
 
-```
+```bash
 Whose woods these are I think I know.
 His house is in the village though;
 He will not see me stopping here
@@ -42,17 +42,17 @@ $ xin wc -c < woods.txt
 
 ## Prerequesites
 
-Python >= 2.7
+Python 3
 
 ## Installation
 
 ```bash
-$ pip install xin
+pip install xin
 ```
 
 or
 
 ```bash
-$ git clone <this repo>
-$ cd xin && python ./setup.py install
+git clone <this repo>
+cd xin && python ./setup.py install
 ```

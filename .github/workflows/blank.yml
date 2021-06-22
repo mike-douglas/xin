@@ -1,0 +1,15 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: python:3.9.2
+  
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      run: python ./setup.py test

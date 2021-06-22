@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import sys
 import os
 import subprocess
@@ -26,10 +24,10 @@ Usage:
 """.format(error=error, this=os.path.split(sys.argv[0])[-1]).strip()
 
 def run_utility(arguments, line):
-    p = subprocess.Popen(arguments, stdin=subprocess.PIPE,\
-                                    stdout=subprocess.PIPE,\
+    p = subprocess.Popen(arguments, stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE)
-    output, error = p.communicate(line)
+    output, error = p.communicate(bytes(line, encoding=sys.getdefaultencoding()))
 
     if p.returncode is None:
         p.terminate()
@@ -40,9 +38,9 @@ def output_result(output, error, stdout=None):
     if stdout == None:
         stdout = sys.stdout
     if not output is None:
-        print(output, end='', file=stdout)
+        print(str(output, encoding=sys.getdefaultencoding()), end='', file=stdout)
     if not error is None:
-        print(error, end='', file=stdout)
+        print(str(error, encoding=sys.getdefaultencoding()), end='', file=stdout)
 
 def chunked_lines(handle, chunk_size=1):
     chunks = []
@@ -65,7 +63,7 @@ def parse_arguments(arguments):
     command = []
     skipped_arguments = []
 
-    for n in xrange(len(arguments)):
+    for n in range(len(arguments)):
         if n in skipped_arguments:
             continue
 
@@ -77,7 +75,7 @@ def parse_arguments(arguments):
                 else:
                     flags[arg] = int(arguments[n+1])
                     skipped_arguments.append(n+1)
-            except ValueError, e:
+            except ValueError as e:
                 raise InvalidArgumentException(arg, 'Invalid value')
         elif arg[0:2] in ('-B'):
             flags[arg] = True
@@ -96,10 +94,10 @@ def parse_arguments(arguments):
 def main():
     try:
         flags, command = parse_arguments(sys.argv[1:])
-    except InvalidArgumentException, e:
+    except InvalidArgumentException as e:
         print(get_help('{msg} for {attr}'.format(attr=e.attribute, msg=e.message)))
         sys.exit(1)
-    except Exception, e:
+    except Exception as e:
         print(get_help(e))
         sys.exit(1)
 
