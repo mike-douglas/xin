@@ -1,9 +1,7 @@
 import unittest
+import sys
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 
 woods_txt = """Whose woods these are I think I know.
 His house is in the village though;
@@ -33,30 +31,42 @@ class TestOutputResult(unittest.TestCase):
     def test_output_only_stdout(self):
         from xin import output_result
 
-        output_result(self.stdout_expected, None, stdout=self.output)
+        output_result(
+            bytes(self.stdout_expected, encoding=sys.getdefaultencoding()),
+            None,
+            stdout=self.output
+        )
 
-        self.assertEquals(self.output.getvalue(), self.stdout_expected)
+        self.assertEqual(self.output.getvalue(), self.stdout_expected)
 
     def test_output_only_stderr(self):
         from xin import output_result
 
-        output_result(None, self.stderr_expected, stdout=self.output)
+        output_result(
+            None,
+            bytes(self.stderr_expected, encoding=sys.getdefaultencoding()),
+            stdout=self.output
+        )
 
-        self.assertEquals(self.output.getvalue(), self.stderr_expected)
+        self.assertEqual(self.output.getvalue(), self.stderr_expected)
 
     def test_output_neither(self):
         from xin import output_result
 
         output_result(None, None, stdout=self.output)
 
-        self.assertEquals(self.output.getvalue(), '')
+        self.assertEqual(self.output.getvalue(), '')
 
     def test_output_both(self):
         from xin import output_result
 
-        output_result(self.stdout_expected, self.stderr_expected, stdout=self.output)
+        output_result(
+            bytes(self.stdout_expected, encoding=sys.getdefaultencoding()),
+            bytes(self.stderr_expected, encoding=sys.getdefaultencoding()),
+            stdout=self.output
+        )
 
-        self.assertEquals(self.output.getvalue(), self.stdboth)
+        self.assertEqual(self.output.getvalue(), self.stdboth)
 
 class TestLineChunking(unittest.TestCase):
     def setUp(self):
@@ -66,7 +76,7 @@ class TestLineChunking(unittest.TestCase):
         from xin import chunked_lines
 
         num_lines = len(woods_txt.split('\n')) - 1
-        self.assertEquals(num_lines, len(list(chunked_lines(self.woods_file))))
+        self.assertEqual(num_lines, len(list(chunked_lines(self.woods_file))))
 
     def test_chunk_lines_size_n(self):
         from xin import chunked_lines
@@ -77,8 +87,8 @@ class TestLineChunking(unittest.TestCase):
         def new_woods_file():
             return StringIO(woods_txt)
 
-        self.assertEquals(woods_excerpt(0, 5), list(chunked_lines(new_woods_file(), 5))[0])
-        self.assertEquals(woods_excerpt(2, 4), list(chunked_lines(new_woods_file(), 2))[1])
+        self.assertEqual(woods_excerpt(0, 5), list(chunked_lines(new_woods_file(), 5))[0])
+        self.assertEqual(woods_excerpt(2, 4), list(chunked_lines(new_woods_file(), 2))[1])
 
 class TestParseArguments(unittest.TestCase):
     def test_args_no_space(self):
@@ -87,8 +97,8 @@ class TestParseArguments(unittest.TestCase):
         args = '-L40 -P30 wc -l'.split(' ')
         args, command = parse_arguments(args)
 
-        self.assertEquals(args['-L'], 40)
-        self.assertEquals(args['-P'], 30)
+        self.assertEqual(args['-L'], 40)
+        self.assertEqual(args['-P'], 30)
 
     def test_args_no_command(self):
         from xin import parse_arguments
@@ -104,7 +114,7 @@ class TestParseArguments(unittest.TestCase):
         args = 'wc -l'.split(' ')
         args, command = parse_arguments(args)
 
-        self.assertEquals(command, ['wc', '-l'])
+        self.assertEqual(command, ['wc', '-l'])
 
     def test_args_integer_parameter(self):
         from xin import parse_arguments, InvalidArgumentException
