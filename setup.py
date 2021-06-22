@@ -7,7 +7,7 @@ with open('README.md') as r:
 
 setup(
     name = 'Xin',
-    version = '0.1',
+    version = '0.2',
     description = 'A command line tool',
     long_description = readme,
     packages = find_packages(),
